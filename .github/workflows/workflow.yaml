@@ -1,0 +1,45 @@
+on:
+  push:
+    branches: ["*"]
+
+jobs:
+  check-conventional-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check conventional commits
+        uses: cocogitto/cocogitto-action@v3.6
+
+  create-release:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create release
+        id: release
+        uses: cocogitto/cocogitto-action@v3.6
+        with:
+          release: true
+
+      - name: Generate changelog
+        run: cog changelog --at ${{ steps.release.outputs.version }} -t full_hash > GITHUB_CHANGELOG.md
+
+      - run: |
+          set -euo pipefail
+          echo "Creating release from tag $tag"
+          gh release create "$tag" \
+          --notes-file GITHUB_CHANGELOG.md \
+          --repo "$GITHUB_REPOSITORY"
+        env:
+          tag: ${{ steps.release.outputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
