@@ -19,7 +19,8 @@ jobs:
 
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-
+    needs:
+      - check-conventional-commits
     outputs:
       current-version: ${{ steps.bump-version.outputs.current-version }}
       version-was-bumped: ${{ steps.bump-version.outputs.version-was-bumped }}
