@@ -18,7 +18,7 @@ outputs:
     value: ${{ steps.previous-version.outputs.previous-version != steps.current-version.outputs.current-version }}
 
 runs:
-  using: ubuntu-latest
+  using: composite
   steps:
     - uses: cocogitto/cocogitto-action@v3.6
       with:
