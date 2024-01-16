@@ -27,12 +27,10 @@ jobs:
 
       - name: Create release
         id: release
-        uses: cocogitto/cocogitto-action@v3.6
-        with:
-          release: true
+        uses: ./.github/workflows/bump-version.yaml
 
       - name: Generate changelog
-        run: cog changelog --at ${{ steps.release.outputs.version }} -t full_hash > GITHUB_CHANGELOG.md
+        run: cog changelog --at ${{ steps.release.outputs.current-version }} -t full_hash > GITHUB_CHANGELOG.md
 
       - run: |
           set -euo pipefail
@@ -40,6 +38,7 @@ jobs:
           gh release create "$tag" \
           --notes-file GITHUB_CHANGELOG.md \
           --repo "$GITHUB_REPOSITORY"
+        if: ${{ steps.release.outputs.version-was-bumped }}
         env:
-          tag: ${{ steps.release.outputs.version }}
+          tag: ${{ steps.release.outputs.current-version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
