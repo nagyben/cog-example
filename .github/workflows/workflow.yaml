@@ -13,22 +13,32 @@ jobs:
       - name: Check conventional commits
         uses: cocogitto/cocogitto-action@v3.6
 
-  create-release:
+  tag-version:
     permissions:
       contents: write
 
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
 
+    outputs:
+      version-was-bumped: ${{ steps.bump-version.outputs.version-was-bumped }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Create release
-        id: release
+      - name: Bump version
+        id: bump-version
         uses: ./.github/bump-version
 
+  create-release:
+    if: ${{needs.tag-version.outputs.version-was-bumped == 'true' && github.ref == 'refs/heads/main'}}
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    needs:
+      - tag-version
+    steps:
       - name: Generate changelog
         run: cog changelog --at v${{ steps.release.outputs.current-version }} -t full_hash > GITHUB_CHANGELOG.md
 
