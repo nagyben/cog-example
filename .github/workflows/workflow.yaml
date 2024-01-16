@@ -27,7 +27,7 @@ jobs:
 
       - name: Create release
         id: release
-        uses: ./.github/workflows/bump-version.yaml
+        uses: ./.github/bump-version
 
       - name: Generate changelog
         run: cog changelog --at ${{ steps.release.outputs.current-version }} -t full_hash > GITHUB_CHANGELOG.md
