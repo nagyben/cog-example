@@ -5,6 +5,7 @@ pre_bump_hooks = []
 post_bump_hooks = [
   "git tag -f v{{version.major}} v{{version}}",
   "git tag -f v{{version.major}}.{{version.minor}} v{{version}}",
+  "git push --tags --force",
 ]
 pre_package_bump_hooks = []
 post_package_bump_hooks = []
