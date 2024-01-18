@@ -6,6 +6,14 @@ inputs:
   working-directory:
     description: The root of the git repository that you want to bump the version on.
     required: false
+  git-user:
+    description: "Git user.name configuration"
+    required: false
+    default: "cog-bot"
+  git-user-email:
+    description: "Git user.email configuration"
+    required: false
+    default: "cog@demo.org"
 
 outputs:
   previous-version:
@@ -36,6 +44,8 @@ runs:
       uses: cocogitto/cocogitto-action@v3.6
       with:
         release: true
+        git-user: ${{ inputs.git-user }}
+        git-user-email: ${{ inputs.git-user-email }}
 
     - id: current-version
       run: |
