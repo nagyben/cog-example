@@ -1,3 +1,4 @@
+# yoinked from https://github.com/armakuni/github-actions/blob/main/bump-version/action.yml
 name: Determine Next version_bump
 description: This Github Action calcuates the next Semantic Version for you repository based on Conventional Commits.
 
@@ -8,7 +9,7 @@ inputs:
 
 outputs:
   previous-version:
-    description: The previous version determined by the existing tag with the heighest SemVer version before the bump.
+    description: The previous version determined by the existing tag with the highest SemVer version before the bump.
     value: ${{ steps.previous-version.outputs.previous-version }}
   current-version:
     description: The current version after the bump determined by the conventional commits since the previous release.
@@ -24,6 +25,7 @@ runs:
 
     - id: previous-version
       run: |
+        set -o pipefail
         cog get-version | tee .version || echo "0.0.0" | tee .version
         echo "previous-version=$( cat .version )"  >> "$GITHUB_OUTPUT"
         rm .version
