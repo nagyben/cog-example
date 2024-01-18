@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.5.1 - 2024-01-18
+#### Bug Fixes
+- foo - (2466581) - Ben Nagy
+
+- - -
+
 ## v0.5.0 - 2024-01-18
 #### Features
 - bar world - (1a87f96) - Ben Nagy
