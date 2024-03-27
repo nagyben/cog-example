@@ -29,7 +29,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: cocogitto/cocogitto-action@v3.6
+    - uses: nagyben/cocogitto-action@main
 
     - id: previous-version
       run: |
@@ -41,7 +41,7 @@ runs:
       shell: bash
 
     - name: Create release
-      uses: cocogitto/cocogitto-action@v3.6
+      uses: nagyben/cocogitto-action@main
       with:
         release: true
         git-user: ${{ inputs.git-user }}
