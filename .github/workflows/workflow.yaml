@@ -13,6 +13,9 @@ jobs:
       - name: Check conventional commits
         uses: nagyben/cocogitto-action@main
 
+      - name: cog version
+        run: cog --version
+
   tag-version:
     permissions:
       contents: write
