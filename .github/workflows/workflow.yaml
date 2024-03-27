@@ -11,7 +11,7 @@ jobs:
           fetch-depth: 0
 
       - name: Check conventional commits
-        uses: cocogitto/cocogitto-action@v3.6
+        uses: nagyben/cocogitto-action@main
 
   tag-version:
     permissions:
@@ -47,7 +47,7 @@ jobs:
           fetch-tags: true # For the changelog
           ref: refs/tags/v${{ needs.tag-version.outputs.current-version }}
 
-      - uses: cocogitto/cocogitto-action@v3.6
+      - uses: nagyben/cocogitto-action@main
 
       - name: Generate changelog
         run: cog changelog --at v${{ needs.tag-version.outputs.current-version }} -t full_hash > GITHUB_CHANGELOG.md
